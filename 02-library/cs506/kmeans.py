@@ -11,8 +11,20 @@ def point_avg(points):
     
     Returns a new point which is the center of all the points.
     """
-    raise NotImplementedError()
 
+    center = []
+
+    for dimension in range(len(points[0])):
+        dimension_sum = 0
+
+        for point in points:
+            dimension_sum += point[dimension]
+    
+        dimension_mean = dimension_sum/len(points[0])
+        center.append(dimension_mean)
+    
+    return center
+    
 
 def update_centers(dataset, assignments):
     """
@@ -21,7 +33,19 @@ def update_centers(dataset, assignments):
     Compute the center for each of the assigned groups.
     Return `k` centers in a list
     """
-    raise NotImplementedError()
+    points_by_cluster = {}
+
+    for i,x in enumerate(dataset):
+        cluster = assignments[i]
+        points_by_cluster[cluster].append(x)
+    
+    centroids = []
+
+    for cluster in points_by_cluster.keys():
+        center = point_avg(points_by_cluster[cluster])
+        centroids.append(center)
+    
+    return centroids
 
 def assign_points(data_points, centers):
     """
